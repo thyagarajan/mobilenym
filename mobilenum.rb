@@ -42,8 +42,12 @@ def wordsForNum
    end
 @output_array.push(makestring(@mobileNum.split('').map{ |k| @dialPadHash[k].split('') }).compact)
 end
+def test_stub
+wordsForNum
+self.output_array.last
+end
 end
 
 instance = MobileNym.new("6686787825")
-instance.wordsForNum
-pp instance.output_array
+
+pp instance.wordsForNum

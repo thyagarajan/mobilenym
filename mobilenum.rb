@@ -26,7 +26,9 @@ def wordsForNum
     leading_pattern = Regexp.new string_one
     string_two = "[0-9]{"+"#{10-(i+1)}"+"}$"
     trailing_pattern = Regexp.new string_two
-    @numberArray << [makestring(@mobileNum.scan(leading_pattern).first.split('').map{ |k| @dialPadHash[k].split('') }).compact,",", makestring(@mobileNum.scan(trailing_pattern).last.split('').map{ |k| @dialPadHash[k].split('') }).compact]
+    if @mobileNum.scan(leading_pattern) != [] && @mobileNum.scan(trailing_pattern) !=[]
+      @numberArray << [makestring(@mobileNum.scan(leading_pattern).first.split('').map{ |k| @dialPadHash[k].split('') }).compact,",", makestring(@mobileNum.scan(trailing_pattern).last.split('').map{ |k| @dialPadHash[k].split('') }).compact]
+    end 
   end
 
    @numberArray.each do |cell|
@@ -40,14 +42,14 @@ def wordsForNum
         end
       end	
    end
-@output_array.push(makestring(@mobileNum.split('').map{ |k| @dialPadHash[k].split('') }).compact)
+@output_array.push(makestring(@mobileNum.split('').map{ |k| @dialPadHash[k].split('') }).compact) if @mobileNum.scan(/^[2-9]{10}$/) !=[]
 end
 def test_stub
-wordsForNum
+wordsForNum if @mobileNum.scan(/^[2-9]{10}$/) !=[]
 self.output_array.last
 end
 end
 
-instance = MobileNym.new("6686787825")
+instance = MobileNym.new("abcdefghij")
 
 pp instance.wordsForNum

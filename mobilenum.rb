@@ -9,7 +9,7 @@ attr_accessor :output_array
 def initialize(number)
   @mobileNum = number.to_s
   @dictionary = Dictionary.from_file('./dictionary.txt', ' ')
-  @dialPadHash =  { "2" => "abc","3"  =>"def","4"=> "ghi","5" => "jkl","6" => "mno","7" => "pqrs","8" =>"tuv" ,"9"=> "wxyz"}
+  @dialPadHash =  { "2" => ['a','b','c'],"3"  => ['d','e','f'],"4"=> ['g','h','i'],"5" => ['j','k','l'],"6" => ['m','n','o'],"7" => ['p','q','r','s'],"8" =>['t','u','v'] ,"9"=> ['w','x','y','z']}
   @output_array = []
 end
 
@@ -26,23 +26,29 @@ def wordsForNum
     leading_pattern = Regexp.new string_one
     string_two = "[0-9]{"+"#{10-(i+1)}"+"}$"
     trailing_pattern = Regexp.new string_two
+<<<<<<< HEAD
     if @mobileNum.scan(leading_pattern) != [] && @mobileNum.scan(trailing_pattern) !=[]
       @numberArray << [makestring(@mobileNum.scan(leading_pattern).first.split('').map{ |k| @dialPadHash[k].split('') }).compact,",", makestring(@mobileNum.scan(trailing_pattern).last.split('').map{ |k| @dialPadHash[k].split('') }).compact]
     end 
+=======
+    @numberArray << [makestring(@mobileNum.scan(leading_pattern).first.split('').map{ |k| @dialPadHash[k] }).compact,",", makestring(@mobileNum.scan(trailing_pattern).last.split('').map{ |k| @dialPadHash[k] }).compact]
+>>>>>>> 12e879223cf4d64048b105f309d8638821419ba0
   end
 
    @numberArray.each do |cell|
-	 if cell.first !=[] 
-	   if cell.last !=[]
+	 if cell.first !=[] && cell.last !=[]
           cell.first.each do |first_syllable|
             cell.last.each do |last_syllable|
                @output_array.push([first_syllable,last_syllable])
             end
-          end
         end
       end	
    end
+<<<<<<< HEAD
 @output_array.push(makestring(@mobileNum.split('').map{ |k| @dialPadHash[k].split('') }).compact) if @mobileNum.scan(/^[2-9]{10}$/) !=[]
+=======
+@output_array.push(makestring(@mobileNum.split('').map{ |k| @dialPadHash[k] }).compact)
+>>>>>>> 12e879223cf4d64048b105f309d8638821419ba0
 end
 def test_stub
 wordsForNum if @mobileNum.scan(/^[2-9]{10}$/) !=[]
